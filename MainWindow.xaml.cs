@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using ReqManLib;
+using ReqManLib.Classes;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,9 +18,22 @@ namespace ReqMan
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private ReqMgmt reqMan;
+
+        public List<string> projectNames = new List<string>();
+
+        public MainWindow(ReqMgmt reqMan)
         {
             InitializeComponent();
+            this.reqMan = reqMan;
+        }
+
+
+
+        public async Task Initialize()
+        {
+            RMResult<List<string>> rmResult = await reqMan.GetProjects();
+            projectNames = rmResult.Result!;
         }
     }
 }
